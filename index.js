@@ -1,6 +1,9 @@
 //express
 const express = require("express");
 
+//path
+const path = require("path");
+
 //cors
 const cors = require("cors");
 
