@@ -31,8 +31,17 @@ app.use(cors());
 app.use(express.json());
 
 //use course router
-app.use(courseRouter);
+app.use("/courses", courseRouter);
+
+//serve static files
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.sendFile("index.html", { root: path.join(__dirname, "public") });
+});
 
 app.listen(process.env.PORT || 5000, () => {
   console.log("listening on port 5000");
 });
+
+module.exports = app;
