@@ -14,6 +14,14 @@ const courseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  start: {
+    type: Date,
+    default: Date.now(),
+  },
+  end: {
+    type: Date,
+    default: Date.now(),
+  },
 });
 
 //create a model from schema

@@ -6,9 +6,12 @@ const getCourses = async (req, res) => {
     //get all courses
     const courses = await Course.find();
 
-    console.log(courses);
+    const allCourses = courses.filter((course) => {
+      //check if date is not a weekend
+      return course.start.getDay() !== 6 && course.start.getDay() !== 0;
+    });
 
-    res.status(200).json(courses);
+    res.status(200).json(allCourses);
   } catch (err) {
     console.log(err);
 
@@ -21,9 +24,11 @@ const getCourses = async (req, res) => {
 //create a course in db
 const createCourse = async (req, res) => {
   try {
-    console.log("body", req.body);
+    const { title, duration, start, end } = req.body;
 
-    const { title, duration } = req.body;
+    const today = new Date();
+    let tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
 
     if (!title || !duration) {
       throw new Error("Please add title or duration");
@@ -33,6 +38,9 @@ const createCourse = async (req, res) => {
     const newCourse = await Course.create({
       title,
       duration,
+      createdAt: today,
+      start: start ? start : tomorrow,
+      end: end ? end : tomorrow,
     });
 
     res.status(201).json(newCourse);
